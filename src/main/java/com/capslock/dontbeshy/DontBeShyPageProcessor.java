@@ -3,6 +3,7 @@ package com.capslock.dontbeshy;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
+import us.codecraft.webmagic.pipeline.ConsolePipeline;
 import us.codecraft.webmagic.processor.PageProcessor;
 import us.codecraft.webmagic.selector.Selectable;
 
@@ -58,6 +59,7 @@ public class DontBeShyPageProcessor implements PageProcessor {
         Spider.create(new DontBeShyPageProcessor())
                 .addUrl("https://www.douban.com/group/haixiuzu/discussion?start=0")
                 .thread(5)
+                .addPipeline(new ConsolePipeline())
                 .run();
     }
 }
