@@ -56,12 +56,4 @@ public class DontBeShyPageProcessor implements PageProcessor {
             page.addTargetRequests(topicUrlList);
         }
     }
-
-    public static void main(String[] args) {
-        Spider.create(new DontBeShyPageProcessor())
-                .addUrl("https://www.douban.com/group/haixiuzu/discussion?start=0")
-                .thread(5)
-                .addPipeline(new ConsolePipeline())
-                .run();
-    }
 }
