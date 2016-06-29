@@ -1,5 +1,6 @@
-package com.capslock.dontbeshy;
+package com.capslock.dontbeshy.spider;
 
+import org.assertj.core.util.Strings;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
@@ -19,7 +20,7 @@ public class DontBeShyPageProcessor implements PageProcessor {
     private static final String URL_LIST_TEMPLATE = "https://www.douban.com/group/haixiuzu/discussion?start=%s";
 
     private static final String TITLE = "title";
-    private static final String IMAGE_URL_LIST = "imageUrlList";
+    private static final String IMAGES = "images";
 
     @Override
     public Site getSite() {
@@ -39,9 +40,11 @@ public class DontBeShyPageProcessor implements PageProcessor {
 
     private void processTopicPage(final Page page) {
         final String title = page.getHtml().xpath("//div[@id='content']/h1/text()").toString();
-        final List<String> imageUrlList = page.getHtml().xpath("//div[@class='topic-figure cc']").$("img", "src").all();
-        page.putField(TITLE, title);
-        page.putField(IMAGE_URL_LIST, imageUrlList);
+        final List<String> images = page.getHtml().xpath("//div[@class='topic-figure cc']").$("img", "src").all();
+        if (!Strings.isNullOrEmpty(title) && !images.isEmpty()) {
+            page.putField(TITLE, title);
+            page.putField(IMAGES, images);
+        }
     }
 
     private void processListPage(final Page page) {
@@ -53,7 +56,6 @@ public class DontBeShyPageProcessor implements PageProcessor {
             page.addTargetRequests(topicUrlList);
         }
     }
-
 
     public static void main(String[] args) {
         Spider.create(new DontBeShyPageProcessor())
