@@ -18,7 +18,9 @@ public class SpiderApplication implements CommandLineRunner {
     private TopicPipeline topicPipeline;
 
     public static void main(String[] args) {
-        SpringApplication.run(SpiderApplication.class, args);
+        final SpringApplication application = new SpringApplication(SpiderApplication.class);
+        application.setWebEnvironment(false);
+        application.run(args);
     }
 
     @Override
